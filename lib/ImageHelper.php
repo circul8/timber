@@ -276,7 +276,7 @@ class ImageHelper {
 	 */
 	public static function get_server_location( $url ) {
 		// if we're already an absolute dir, just return
-		if ( 0 === strpos($url, ABSPATH) ) {
+		if ( 0 === strpos($url, URLHelper::get_root_dir()) ) {
 			return $url;
 		}
 		// otherwise, analyze URL then build mapping path
@@ -318,7 +318,7 @@ class ImageHelper {
 		}
 		// Download file to temp location
 		if ( !function_exists('download_url') ) {
-			require_once ABSPATH.'/wp-admin/includes/file.php';
+			require_once URLHelper::get_root_dir().'/wp-admin/includes/file.php';
 		}
 		$tmp = download_url($file);
 		preg_match('/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches);
@@ -356,7 +356,7 @@ class ImageHelper {
 		);
 		$upload_dir = wp_upload_dir();
 		$tmp = $url;
-		if ( TextHelper::starts_with($tmp, ABSPATH) || TextHelper::starts_with($tmp, '/srv/www/') ) {
+		if ( TextHelper::starts_with($tmp, URLHelper::get_root_dir()) || TextHelper::starts_with($tmp, '/srv/www/') ) {
 			// we've been given a dir, not an url
 			$result['absolute'] = true;
 			if ( TextHelper::starts_with($tmp, $upload_dir['basedir']) ) {
